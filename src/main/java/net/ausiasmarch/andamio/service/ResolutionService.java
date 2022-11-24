@@ -38,13 +38,6 @@ public class ResolutionService {
     @Autowired
     IssueService oIssueService;
 
-    
-    public void validate(Long id) {
-        if (!oResolutionRepository.existsById(id)) {
-            throw new ResourceNotFoundException("id " + id + " not exist");
-        }
-    }
-
     public ResolutionEntity get(Long id) {
         //oAuthService.OnlyAdmins();
         return oResolutionRepository.getById(id);
@@ -162,16 +155,5 @@ public class ResolutionService {
         validate(oNewResolutionEntity);
         oNewResolutionEntity.setId(0L);
         return oResolutionRepository.save(oNewResolutionEntity).getId();
-    }
-
-    public Long delete(Long id) {
-        oAuthService.OnlyAdmins();
-        validate(id);
-        oResolutionRepository.deleteById(id);
-        if (oResolutionRepository.existsById(id)) {
-            throw new ResourceNotModifiedException("can't remove register " + id);
-        } else {
-            return id;
-        }
     }
 }
